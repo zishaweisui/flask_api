@@ -9,7 +9,7 @@
         Hello, People!
     </h1>
     {% for person in people %}
-    <h2>{{ person.fname }} {{ person.lname }}</h2>
+    <h2><a href="api/people/{{person.id}}">{{ person.fname }} {{ person.lname }}</a></h2>
     <ul>
         {% for note in person.notes %}
         <li>
