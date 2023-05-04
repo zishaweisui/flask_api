@@ -2,4 +2,4 @@ venv/
 __pycache__/
 people.db
 build_database.py
-manage.py
+migrations/

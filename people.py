@@ -7,17 +7,11 @@ def read_all():
     return people_schema.dump(people)
 
 def create(person):
-    lname = person.get("lname")
-    existing_person = Person.query.filter(Person.lname == lname).one_or_none()
-
-    if existing_person is None:
-        new_person = person_schema.load(person, session=db.session)
-        db.session.add(new_person)
-        db.session.commit()
-        return person_schema.dump(new_person), 201
-    else:
-        abort(406, f"Person with last name {lname} already exists")
-
+    new_person = person_schema.load(person, session=db.session)
+    db.session.add(new_person)
+    db.session.commit()
+    return person_schema.dump(new_person), 201
+    
 def read_one(person_id):
     person = Person.query.filter(Person.id == person_id).one_or_none()
 
@@ -34,6 +28,7 @@ def update(person_id, person):
     if existing_person:
         update_person = person_schema.load(person, session=db.session)
         existing_person.fname = update_person.fname
+        existing_person.lname = update_person.lname
         db.session.merge(existing_person)
         db.session.commit()
         return person_schema.dump(existing_person), 201
