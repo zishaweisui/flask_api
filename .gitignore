@@ -1,5 +1,5 @@
 venv/
 __pycache__/
 people.db
-build_database.py
+build_db.py
 migrations/
