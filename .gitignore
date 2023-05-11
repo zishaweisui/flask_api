@@ -3,3 +3,4 @@ __pycache__/
 people.db
 build_db.py
 migrations/
+Dockerfile

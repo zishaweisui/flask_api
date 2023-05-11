@@ -14,7 +14,6 @@ def create(person):
     
 def read_one(person_id):
     person = Person.query.filter(Person.id == person_id).one_or_none()
-
     if person is not None:
         return person_schema.dump(person)
     else:

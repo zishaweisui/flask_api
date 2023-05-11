@@ -7,16 +7,15 @@
 </head>
 <body>
     <div class="jumbotron text-center">
+    {% for person in people %}
     <h1>
-        Hello, People!
+        {{ person.fname }} {{ person.lname }}'s posts
     </h1>
     </div>
-    {% for person in people %}
-    <h2><a href="people/{{person.id}}">{{ person.fname }} {{ person.lname }}</a></h2>
     <ul>
         {% for note in person.notes %}
         <li>
-            <a href="people/{{person.id}}/notes/{{note.id}}">{{ note.content }}</a>
+            <a href="{{person.id}}/notes/{{note.id}}">{{ note.content }}</a>
         </li>
         {% endfor %}
     </ul>
