@@ -16,7 +16,7 @@
     <ul>
         {% for note in person.notes %}
         <li>
-            <a href="people/{{person.id}}/notes/{{note.id}}">{{ note.content }}</a>
+            <a href="people/{{person.id}}/notes/{{note.id}}">{{ note.id }}. {{ note.content }}</a>
         </li>
         {% endfor %}
     </ul>

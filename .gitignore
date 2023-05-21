@@ -1,6 +1,7 @@
 venv/
 __pycache__/
+migrations/
+.pytest_cache/
+Dockerfile
 people.db
 build_db.py
-migrations/
-Dockerfile
