@@ -16,8 +16,8 @@ class TestPersonRoutes:
 
     def test_create_person(self, client):
         json_body = {
-            "lname": "Batuta",
-            "fname": "Tuta",
+            "lname": "Ajax",
+            "fname": "Space",
         }
         response = client.post("/people", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
@@ -25,7 +25,7 @@ class TestPersonRoutes:
     def test_update_person(self, client):
         json_body = {
             "lname": "Gaga",
-            "fname": "Jaja",
+            "fname": "Updated",
         }
         response = client.put("/people/7", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
@@ -56,20 +56,20 @@ class TestNotesRoutes:
 
     def test_create_note(self, client):
         json_body = {
-            "content": "Aiaiaiaia",
+            "content": "Maliyan",
         }
         response = client.post("/people/4/new", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_update_note(self, client):
         json_body = {
-            "content": "Ahalai Mahalai",
+            "content": "Updated Ahalai Mahalai",
         }
         response = client.put("/people/3/notes/7", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_delete_note(self, client):
-        response = client.delete("/people/7/notes/12")
+        response = client.delete("/people/1/notes/16")
         assert response.status_code == 200
 
     def test_note_invalid_id(self, client):

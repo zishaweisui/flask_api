@@ -1,5 +1,5 @@
 from flask import jsonify 
-from ..exceptions import UserNotFoundError, NoteNotFoundError
+from .exceptions import UserNotFoundError, NoteNotFoundError
 
 class BaseHandler:
     def execute(self, *args, **kwargs):

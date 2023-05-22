@@ -1,5 +1,5 @@
 from flask import request
-from ..exceptions import NoteNotFoundError
+from .exceptions import NoteNotFoundError
 from handlers.base_handler import BaseHandler
 from services.notes_service import NoteService
 

@@ -1,61 +1,61 @@
 from flask import render_template, request
 import config
-from models import Person
-from handlers.people_handler import PeopleHandler
+from models import User
+from handlers.user_handler import UserHandler
 from handlers.notes_handler import NotesHandler
 
 app = config.connex_app
-people_handler = PeopleHandler()
+user_handler = UserHandler()
 notes_handler = NotesHandler()
 
-@app.route("/people", methods=['GET'])
+@app.route("/users", methods=['GET'])
 def home():
-    people = people_handler.routes()
-    return render_template("home.html", people=people)
+    users = user_handler.routes()
+    return render_template("home.html", users=users)
 
-@app.route("/people", methods=['POST'])
-def create_person():
-    people = people_handler.routes()
-    return render_template("home.html", people=people)
+@app.route("/users", methods=['POST'])
+def create_user():
+    users = user_handler.routes()
+    return render_template("home.html", users=users)
 
-@app.route("/people/<int:person_id>", methods=['GET'])
-def get_person(person_id):
-    user = people_handler.routes(person_id=person_id)
-    people = [user]
-    return render_template("person.html", people=people)
+@app.route("/users/<int:user_id>", methods=['GET'])
+def get_user(user_id):
+    user = user_handler.routes(user_id=user_id)
+    users = [user]
+    return render_template("user.html", users=users)
 
-@app.route("/people/<int:person_id>", methods=['PUT'])
-def update_person(person_id):
-    user = people_handler.routes(person_id=person_id)
-    people = [user]
-    return render_template("home.html", people=people)
+@app.route("/users/<int:user_id>", methods=['PUT'])
+def update_user(user_id):
+    user = user_handler.routes(user_id=user_id)
+    users = [user]
+    return render_template("home.html", users=users)
 
-@app.route("/people/<int:person_id>", methods=['DELETE'])
-def delete_person(person_id):
-    people_handler.routes(person_id=person_id)
+@app.route("/users/<int:user_id>", methods=['DELETE'])
+def delete_user(user_id):
+    user_handler.routes(user_id=user_id)
     return 'User deleted', 200
 
-@app.route("/people/<int:person_id>/notes/<int:note_id>", methods=['GET'])
-def get_one_note(person_id, note_id):
+@app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['GET'])
+def get_one_note(user_id, note_id):
     note = notes_handler.routes(note_id=note_id)
-    person = Person.query.filter(Person.id == person_id).one_or_none()
-    return render_template("note.html", note=note, person=person)
+    user = User.query.filter(User.id == user_id).one_or_none()
+    return render_template("note.html", note=note, user=user)
 
-@app.route("/people/<int:person_id>/new", methods=['POST'])
-def create_new_note(person_id):
+@app.route("/users/<int:user_id>/new", methods=['POST'])
+def create_new_note(user_id):
     new_note = request.json
-    content = {'person_id': person_id, 'content': new_note}
+    content = {'user_id': user_id, 'content': new_note}
     post = notes_handler.routes(note=content)
     return render_template("home.html", note=post)
 
-@app.route("/people/<int:person_id>/notes/<int:note_id>", methods=['PUT'])
-def update_one_note(person_id, note_id):
+@app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['PUT'])
+def update_one_note(user_id, note_id):
     content = request.json
     note = notes_handler.routes(note_id=note_id, note=content)
     return render_template("home.html", note=note)
 
-@app.route("/people/<int:person_id>/notes/<int:note_id>", methods=['DELETE'])
-def delete_one_note(person_id, note_id):
+@app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['DELETE'])
+def delete_one_note(user_id, note_id):
     notes_handler.routes(note_id=note_id)
     return 'Note deleted', 200
 

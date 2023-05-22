@@ -11,12 +11,12 @@
         Hello, People!
     </h1>
     </div>
-    {% for person in people %}
-    <h2><a href="people/{{person.id}}">{{ person.fname }} {{ person.lname }}</a></h2>
+    {% for user in users %}
+    <h2><a href="users/{{user.id}}">{{ user.fname }} {{ user.lname }}</a></h2>
     <ul>
-        {% for note in person.notes %}
+        {% for note in user.notes %}
         <li>
-            <a href="people/{{person.id}}/notes/{{note.id}}">{{ note.id }}. {{ note.content }}</a>
+            <a href="users/{{user.id}}/notes/{{note.id}}">{{ note.id }}. {{ note.content }}</a>
         </li>
         {% endfor %}
     </ul>

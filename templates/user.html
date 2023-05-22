@@ -7,15 +7,15 @@
 </head>
 <body>
     <div class="jumbotron text-center">
-    {% for person in people %}
+    {% for user in users %}
     <h1>
-        {{ person.fname }} {{ person.lname }}'s posts
+        {{ user.fname }} {{ user.lname }}'s posts
     </h1>
     </div>
     <ul>
-        {% for note in person.notes %}
+        {% for note in user.notes %}
         <li>
-            <a href="{{person.id}}/notes/{{note.id}}">{{ note.content }}</a>
+            <a href="{{user.id}}/notes/{{note.id}}">{{ note.content }}</a>
         </li>
         {% endfor %}
     </ul>
