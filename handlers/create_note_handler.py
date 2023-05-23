@@ -1,9 +1,9 @@
 from handlers.base_handler import BaseHandler
-from services.notes_service import NoteService
+from services.create_note_service import CreateNoteService
 
 class CreateNoteHandler(BaseHandler):
     def __init__(self):
-        self.service  = NoteService()
+        self.service  = CreateNoteService()
 
     def create_note(self, note=None):
         return self.service.create(note)
