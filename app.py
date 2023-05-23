@@ -1,38 +1,46 @@
 from flask import render_template, request
 import config
 from models import User
-from handlers.user_handler import UserHandler
 from handlers.notes_handler import NotesHandler
+from handlers.get_users_handler import GetUsersHandler
+from handlers.get_user_handler import GetUserHandler
+from handlers.create_user_handler import CreateUserHandler
+from handlers.update_user_handler import UpdateUserHandler
+from handlers.delete_user_handler import DeleteUserHandler
 
 app = config.connex_app
-user_handler = UserHandler()
 notes_handler = NotesHandler()
 
 @app.route("/users", methods=['GET'])
 def home():
-    users = user_handler.routes()
+    handler = GetUsersHandler()
+    users = handler.get_users()
     return render_template("home.html", users=users)
 
 @app.route("/users", methods=['POST'])
 def create_user():
-    users = user_handler.routes()
+    handler = CreateUserHandler()
+    users = handler.create_user()
     return render_template("home.html", users=users)
 
 @app.route("/users/<int:user_id>", methods=['GET'])
 def get_user(user_id):
-    user = user_handler.routes(user_id=user_id)
+    handler = GetUserHandler()
+    user = handler.get_user(user_id=user_id)
     users = [user]
     return render_template("user.html", users=users)
 
 @app.route("/users/<int:user_id>", methods=['PUT'])
 def update_user(user_id):
-    user = user_handler.routes(user_id=user_id)
+    handler = UpdateUserHandler()
+    user = handler.update_user(user_id=user_id)
     users = [user]
     return render_template("home.html", users=users)
 
 @app.route("/users/<int:user_id>", methods=['DELETE'])
 def delete_user(user_id):
-    user_handler.routes(user_id=user_id)
+    handler = DeleteUserHandler()
+    handler.delete_user(user_id=user_id)
     return 'User deleted', 200
 
 @app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['GET'])
