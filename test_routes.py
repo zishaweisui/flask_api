@@ -11,7 +11,7 @@ class TestPersonRoutes:
                 yield client
 
     def test_get_person(self, client):
-        response = client.get("/people/1")
+        response = client.get("/users/1")
         assert response.status_code == 200
 
     def test_create_person(self, client):
@@ -19,7 +19,7 @@ class TestPersonRoutes:
             "lname": "Ajax",
             "fname": "Space",
         }
-        response = client.post("/people", data=json.dumps(json_body), content_type='application/json')
+        response = client.post("/users", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_update_person(self, client):
@@ -27,15 +27,15 @@ class TestPersonRoutes:
             "lname": "Gaga",
             "fname": "Updated",
         }
-        response = client.put("/people/7", data=json.dumps(json_body), content_type='application/json')
+        response = client.put("/users/7", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_delete_person(self, client):
-        response = client.delete("/people/11")
+        response = client.delete("/users/11")
         assert response.status_code == 200
     
     def test_person_invalid_id(self, client):
-        response = client.get("/people/182781")
+        response = client.get("/users/182781")
         error_message = response.json
         assert error_message["detail"] == "The user id not found"
         assert error_message["title"] == "Not Found"
@@ -51,29 +51,29 @@ class TestNotesRoutes:
                 yield client
 
     def test_get_one_note(self, client):
-        response = client.get("/people/7/notes/12")
+        response = client.get("/users/7/notes/12")
         assert response.status_code == 200
 
     def test_create_note(self, client):
         json_body = {
             "content": "Maliyan",
         }
-        response = client.post("/people/4/new", data=json.dumps(json_body), content_type='application/json')
+        response = client.post("/users/4/new", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_update_note(self, client):
         json_body = {
             "content": "Updated Ahalai Mahalai",
         }
-        response = client.put("/people/3/notes/7", data=json.dumps(json_body), content_type='application/json')
+        response = client.put("/users/3/notes/7", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_delete_note(self, client):
-        response = client.delete("/people/1/notes/16")
+        response = client.delete("/users/1/notes/16")
         assert response.status_code == 200
 
     def test_note_invalid_id(self, client):
-        response = client.get("/people/7/notes/12754")
+        response = client.get("/users/7/notes/12754")
         error_message = response.json
         assert error_message["detail"] == "Note ID not found"
         assert error_message["title"] == "Not Found"

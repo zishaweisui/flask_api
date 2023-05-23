@@ -1,15 +1,17 @@
 from flask import render_template, request
 import config
 from models import User
-from handlers.notes_handler import NotesHandler
 from handlers.get_users_handler import GetUsersHandler
 from handlers.get_user_handler import GetUserHandler
 from handlers.create_user_handler import CreateUserHandler
 from handlers.update_user_handler import UpdateUserHandler
 from handlers.delete_user_handler import DeleteUserHandler
+from handlers.get_note_handler import GetNoteHandler
+from handlers.create_note_handler import CreateNoteHandler
+from handlers.update_note_handler import UpdateNoteHandler
+from handlers.delete_note_handler import DeleteNoteHandler
 
 app = config.connex_app
-notes_handler = NotesHandler()
 
 @app.route("/users", methods=['GET'])
 def home():
@@ -45,26 +47,30 @@ def delete_user(user_id):
 
 @app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['GET'])
 def get_one_note(user_id, note_id):
-    note = notes_handler.routes(note_id=note_id)
+    handler = GetNoteHandler()
+    note = handler.get_note(note_id=note_id)
     user = User.query.filter(User.id == user_id).one_or_none()
     return render_template("note.html", note=note, user=user)
 
 @app.route("/users/<int:user_id>/new", methods=['POST'])
 def create_new_note(user_id):
+    handler = CreateNoteHandler()
     new_note = request.json
     content = {'user_id': user_id, 'content': new_note}
-    post = notes_handler.routes(note=content)
+    post = handler.create_note(note=content)
     return render_template("home.html", note=post)
 
 @app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['PUT'])
 def update_one_note(user_id, note_id):
+    handler = UpdateNoteHandler()
     content = request.json
-    note = notes_handler.routes(note_id=note_id, note=content)
+    note = handler.update_note(note_id=note_id, note=content)
     return render_template("home.html", note=note)
 
 @app.route("/users/<int:user_id>/notes/<int:note_id>", methods=['DELETE'])
 def delete_one_note(user_id, note_id):
-    notes_handler.routes(note_id=note_id)
+    handler = DeleteNoteHandler()
+    handler.delete_note(note_id=note_id)
     return 'Note deleted', 200
 
 if __name__ == "__main__":
