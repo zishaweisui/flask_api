@@ -56,25 +56,22 @@ class TestNotesRoutes:
 
     def test_create_note(self, client):
         json_body = {
-            "content": "Maliyan",
+            "content": "Darova",
         }
-        response = client.post("/users/4/new", data=json.dumps(json_body), content_type='application/json')
+        response = client.post("/users/13/new", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_update_note(self, client):
         json_body = {
-            "content": "Updated Ahalai Mahalai",
+            "content": "Updated Maliyan",
         }
-        response = client.put("/users/3/notes/7", data=json.dumps(json_body), content_type='application/json')
+        response = client.put("/users/12/notes/28", data=json.dumps(json_body), content_type='application/json')
         assert response.status_code == 200
 
     def test_delete_note(self, client):
-        response = client.delete("/users/1/notes/16")
+        response = client.delete("/users/7/notes/12")
         assert response.status_code == 200
 
     def test_note_invalid_id(self, client):
         response = client.get("/users/7/notes/12754")
-        error_message = response.json
-        assert error_message["detail"] == "Note ID not found"
-        assert error_message["title"] == "Not Found"
         assert response.status_code == 404

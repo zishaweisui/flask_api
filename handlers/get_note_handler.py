@@ -1,10 +1,12 @@
 from handlers.base_handler import BaseHandler
-from services.get_note_service import GetNoteService
 
 class GetNoteHandler(BaseHandler):
-    def __init__(self):
-        self.service = GetNoteService()
+    def __init__(self, notes_service):
+        self.service = notes_service
 
     def get_note(self, note_id=None):
-        return self.service.read_one(note_id) 
+        return self.execute(
+            self.service.get,
+            note_id
+        )
         

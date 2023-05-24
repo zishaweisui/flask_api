@@ -1,9 +1,8 @@
 from handlers.base_handler import BaseHandler
-from services.get_user_service import GetUserService
 
 class GetUserHandler(BaseHandler):
-    def __init__(self):
-        self.service = GetUserService()
+    def __init__(self, users_service):
+        self.service = users_service
     
     def get_user(self, **kwargs):
-        return self.service.read_one(kwargs['user_id'])
+        return self.service.get(kwargs['user_id'])

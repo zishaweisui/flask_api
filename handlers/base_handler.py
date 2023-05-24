@@ -1,17 +1,16 @@
-from flask import jsonify 
-from .exceptions import UserNotFoundError, NoteNotFoundError
+import json
+from flask import jsonify, Response
+from infrastructure_exceptions import NotFoundException
 
 class BaseHandler:
-    def execute(self, *args, **kwargs):
+    def execute(self, handler_func, *args, **kwargs):
         try: 
-            data = self._execute(*args, **kwargs)
+            data = handler_func(*args, **kwargs)
             return jsonify(data), 200
-        except UserNotFoundError:
-            response = {'error': 'User ID not found'}
-            return jsonify(response), 404
-        except NoteNotFoundError:
-            response = {'error': 'Note ID not found'}
-            return jsonify(response), 404
-        except Exception:
-            response = {'error': "Fuck you it's 500"}
-            return jsonify(response), 500
+        except NotFoundException:
+            response = {"status": 404, "body": {}}
+        return Response(
+            response=json.dumps(response["body"]),
+            status=response["status"],
+            mimetype="application/json"
+        )
