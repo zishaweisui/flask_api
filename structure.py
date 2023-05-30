@@ -8,7 +8,7 @@ from services import (
 
 from presenters.user_presenter import UserPresenter
 
-get_users_handler = GetUsersHandler(users_service)
+get_users_handler = GetUsersHandler(users_service, UserPresenter)
 get_user_handler = GetUserHandler(users_service, UserPresenter)
 create_user_handler = CreateUserHandler(users_service)
 update_user_handler = UpdateUserHandler(users_service)
