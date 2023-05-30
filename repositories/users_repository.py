@@ -11,6 +11,7 @@ class UsersRepository:
         user = User.query.filter(User.id == user_id).one_or_none()
         if user is not None:
             return user_schema.dump(user)
+        return None
 
     def create_user(self, user):
         new_user = user_schema.load(user, session=db.session)

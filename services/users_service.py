@@ -1,4 +1,5 @@
 from repositories import UsersRepository
+from infrastructure_exceptions import NotFoundException
 
 class UsersService:
     def __init__(self, users_repositoty):
@@ -8,7 +9,10 @@ class UsersService:
         return self.repository.get_users()
 
     def get(self, user_id):
-        return self.repository.get_user(user_id)
+        user = self.repository.get_user(user_id)
+        if not user:
+            raise NotFoundException
+        return user
 
     def create(self, user):
         return self.repository.create_user(user)
