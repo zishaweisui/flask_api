@@ -6,4 +6,5 @@ class GetUsersHandler(BaseHandler):
         self.service = users_service
     
     def get_users(self):
-        return self.service.get_all()
+        users = self.service.get_all()
+        return [self.presenter.present(user) for user in users]

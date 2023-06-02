@@ -1,16 +1,16 @@
 from flask import make_response
 from config import db
-from models import User, users_schema, user_schema
+from models import User, user_schema
 
 class UsersRepository:
     def get_users(self):
         users = User.query.all()
-        return users_schema.dump(users)
+        return users
 
     def get_user(self, user_id):
         user = User.query.filter(User.id == user_id).one_or_none()
         if user is not None:
-            return user_schema.dump(user)
+            return user
         return None
 
     def create_user(self, user):

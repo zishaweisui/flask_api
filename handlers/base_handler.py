@@ -11,9 +11,9 @@ class BaseHandler:
             data = handler_func(*args, **kwargs)
             if self.presenter:
                 if isinstance(data, list):
-                    data = [self.presenter(item).present() for item in data]
+                    data = [self.presenter.present(item) for item in data]
                 else:
-                    data = self.presenter(data).present()
+                    data = self.presenter.present(data)
             return jsonify(data), 200
         except NotFoundException:
             response = {"status": 404, "body": {}}
