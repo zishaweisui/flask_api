@@ -6,10 +6,10 @@ from services import (
     users_service, notes_service
 )
 
-from presenters.user_presenter import UserPresenter
+from presenters import note_presenter, user_presenter
 
-get_users_handler = GetUsersHandler(users_service, UserPresenter)
-get_user_handler = GetUserHandler(users_service, UserPresenter)
+get_users_handler = GetUsersHandler(users_service, user_presenter)
+get_user_handler = GetUserHandler(users_service, user_presenter)
 create_user_handler = CreateUserHandler(users_service)
 update_user_handler = UpdateUserHandler(users_service)
 delete_user_handler = DeleteUserHandler(users_service)
