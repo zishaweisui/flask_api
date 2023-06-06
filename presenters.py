@@ -7,7 +7,8 @@ class UserPresenter:
             "id": user.id,
             "fname": user.fname,
             "lname": user.lname,
-            "timestamp": user.timestamp,
+            "created_date": user.created_date,
+            "updated_date": user.updated_date,
             "notes": [self.note_presenter.present(note) for note in user.notes],
         }
 
@@ -17,7 +18,8 @@ class NotePresenter:
             "id": note.id,
             "user_id": note.user_id,
             "content": note.content,
-            "timestamp": note.timestamp,
+            "created_date": note.created_date,
+            "updated_date": note.updated_date,
         }
 
 note_presenter = NotePresenter()

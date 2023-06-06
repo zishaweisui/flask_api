@@ -1,5 +1,5 @@
 from config import db
-from models import User, PlainUser
+from models import User
 
 class UsersRepository:
     def __init__(self, user_translator):
@@ -13,15 +13,13 @@ class UsersRepository:
         user = User.query.filter(User.id == user_id).one_or_none()
         return user
 
-    def create_user(self, user: PlainUser): 
-        user_data = self.translator.to_database(user)
-        new_user = User(**user_data)
+    def create_user(self, user): 
+        new_user = User(**user)
         db.session.add(new_user)
         db.session.commit()
         return self.translator.from_database(new_user)
 
-    def update_user(self, user_id, user: PlainUser):
-        print(user, flush=True)
+    def update_user(self, user_id, user):
         User.query.filter(User.id == user_id).update(user)
         updated_user = User.query.filter(User.id == user_id).one_or_none()
         db.session.commit()

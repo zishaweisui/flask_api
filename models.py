@@ -7,7 +7,10 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     content = db.Column(db.String, nullable=False)
-    timestamp = db.Column(
+    created_date = db.Column(
+        db.DateTime, default=datetime.utcnow
+    )
+    updated_date = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
 
@@ -16,7 +19,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     lname = db.Column(db.String(32), unique=False)
     fname = db.Column(db.String(32))
-    timestamp = db.Column(
+    created_date = db.Column(
+        db.DateTime, default=datetime.utcnow
+    )
+    updated_date = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     notes = db.relationship(
@@ -24,7 +30,7 @@ class User(db.Model):
         backref="user",
         cascade="all, delete, delete-orphan",
         single_parent=True,
-        order_by="desc(Note.timestamp)"
+        order_by="desc(Note.updated_date)"
     )    
 
 class PlainUser(BaseModel):
@@ -33,4 +39,11 @@ class PlainUser(BaseModel):
     lname: str
     created_date: datetime
     updated_date: datetime
-    timestamp: datetime
+
+class PlainNote(BaseModel):
+    id: int
+    user_id: int
+    content: str
+    created_date: datetime
+    updated_date: datetime
+    

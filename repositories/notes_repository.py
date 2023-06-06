@@ -1,5 +1,5 @@
 from config import db
-from models import Note
+from models import Note, PlainNote
 
 class NotesRepository:
     def __init__(self, note_translator):
@@ -11,18 +11,16 @@ class NotesRepository:
             return self.translator.from_database(note)
         return None
 
-    def create_note(self, note):
-        note_dict = self.translator.to_database(note)
-        new_note = Note(**note_dict)
+    def create_note(self, note: PlainNote):
+        new_note = Note(**note)
         db.session.add(new_note)
         db.session.commit()
         return self.translator.from_database(new_note)
 
-    def update_note(self, note_id, note):
-        note_dict = self.translator.to_database(note)
+    def update_note(self, note_id, note:PlainNote):
         existing_note = Note.query.get(note_id)
         if existing_note:
-            for key, value in note_dict.items():
+            for key, value in note.items():
                 setattr(existing_note, key, value)
             db.session.commit()
             return self.translator.from_database(existing_note)

@@ -1,26 +1,30 @@
+from models import PlainUser, PlainNote
+
 class UserTranslator:
     def __init__(self, note_translator):
         self.note_translator = note_translator
 
-    def to_database(self, user):
-        return {
-            "id": user.get("id"),
-            "fname": user.get("fname"),
-            "lname": user.get("lname"),
-            "timestamp": user.get("timestamp"),
-        }
-
-
-    def from_database(self, user):
+    def to_database(self, user: PlainUser):
         return {
             "id": user.id,
             "fname": user.fname,
             "lname": user.lname,
-            "timestamp": user.timestamp,
+            "created_date": user.created_date,
+            "updated_date": user.updated_date,
+            "notes": [self.note_translator.to_database(note) for note in user.notes],
+        }
+
+
+    def from_database(self, user: PlainUser):
+        return {
+            "id": user.id,
+            "fname": user.fname,
+            "lname": user.lname,
+            "created_date": user.created_date,
+            "updated_date": user.updated_date,
             "notes": [self.note_translator.from_database(note) for note in user.notes],
         }
         
-
 
 class NoteTranslator:
     def to_database(self, note):
@@ -28,35 +32,15 @@ class NoteTranslator:
             "id": note.get("id"),
             "user_id": note.get("user_id"),
             "content": note.get("content"),
-            "timestamp": note.get("timestamp"),
+            "created_date": note.get("created_date"),
+            "updated_date": note.get("updated_date"),
         }
 
-    def from_database(self, note):
+    def from_database(self, note: PlainNote):
         return {
             "id": note.id,
             "user_id": note.user_id,
             "content": note.content,
-            "timestamp": note.timestamp,
+            "created_date": note.created_date,
+            "updated_date": note.updated_date,
         }
-
-# class UserTranslator:
-#     def __init__(self, note_translator):
-#         self.note_translator = note_translator
-
-#     def to_database(self, user):
-#         return {
-#             "id": user.get("id"),
-#             "fname": user.get("fname"),
-#             "lname": user.get("lname"),
-#             "timestamp": user.get("timestamp"),
-#             "notes": [self.note_translator.to_database(note) for note in user.get("notes")],
-#         }
-
-# class NoteTranslator:
-#     def to_database(self, note):
-#         return {
-#             "id": note.get("id"),
-#             "user_id": note.get("user_id"),
-#             "content": note.get("content"),
-#             "timestamp": note.get("timestamp"),
-#         }

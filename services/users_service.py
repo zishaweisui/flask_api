@@ -1,6 +1,6 @@
 from repositories import UsersRepository
 from translators import UserTranslator, NoteTranslator
-# from datetime import datetime
+from datetime import datetime, timedelta
 from infrastructure_exceptions import NotFoundException
 
 class UsersService:
@@ -17,7 +17,8 @@ class UsersService:
         return user
 
     def create(self, user):
-        # user.timestamp = datetime.utcnow()
+        # print(isinstance(user, PlainUser), flush=True)
+        user["created_date"] = datetime.utcnow()-timedelta(days=30)
         return self.repository.create_user(user)
 
     def update(self, user_id, user):
