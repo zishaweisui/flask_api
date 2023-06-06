@@ -1,9 +1,10 @@
 from repositories import NotesRepository
+from translators import NoteTranslator
 from infrastructure_exceptions import NotFoundException
 
 class NotesService:
-    def __init__(self, notes_repositoty):
-        self.repository = notes_repositoty
+    def __init__(self, notes_repository):
+        self.repository = notes_repository
 
     def get(self, note_id):
         note = self.repository.get_note(note_id)
@@ -20,5 +21,6 @@ class NotesService:
     def delete(self, note_id):
         return self.repository.delete_note(note_id)
 
-notes_repository = NotesRepository()
+note_translator = NoteTranslator()
+notes_repository = NotesRepository(note_translator)
 notes_service = NotesService(notes_repository)

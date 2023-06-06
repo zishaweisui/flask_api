@@ -55,7 +55,7 @@ def get_one_note(user_id, note_id):
 def create_new_note(user_id):
     handler = create_note_handler
     new_note = request.json
-    content = {'user_id': user_id, 'content': new_note}
+    content = {'user_id': user_id, 'content': new_note['content']}
     return handler.create_note(note=content)
 
 

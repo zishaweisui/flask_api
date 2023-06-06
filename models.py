@@ -1,6 +1,6 @@
 from datetime import datetime
-from config import db, ma
-from marshmallow_sqlalchemy import fields
+from pydantic import BaseModel
+from config import db
 
 class Note(db.Model):
     __tablename__ = "note"
@@ -10,13 +10,6 @@ class Note(db.Model):
     timestamp = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-
-class NoteSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Note
-        load_instance = True
-        sqla_session = db.session
-        include_fk = True
 
 class User(db.Model):
     __tablename__ = "user"
@@ -34,15 +27,10 @@ class User(db.Model):
         order_by="desc(Note.timestamp)"
     )    
 
-class UserSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        load_instance = True
-        sqla_session = db.session
-        include_relationships = True
-
-    notes = fields.Nested(NoteSchema, many=True)
-
-note_schema = NoteSchema()
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+class PlainUser(BaseModel):
+    id: int
+    fname: str
+    lname: str
+    created_date: datetime
+    updated_date: datetime
+    timestamp: datetime

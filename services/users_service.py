@@ -1,9 +1,11 @@
 from repositories import UsersRepository
+from translators import UserTranslator, NoteTranslator
+# from datetime import datetime
 from infrastructure_exceptions import NotFoundException
 
 class UsersService:
-    def __init__(self, users_repositoty):
-        self.repository = users_repositoty
+    def __init__(self, users_repository):
+        self.repository = users_repository
 
     def get_all(self):
         return self.repository.get_users()
@@ -15,6 +17,7 @@ class UsersService:
         return user
 
     def create(self, user):
+        # user.timestamp = datetime.utcnow()
         return self.repository.create_user(user)
 
     def update(self, user_id, user):
@@ -23,6 +26,7 @@ class UsersService:
     def delete(self, user_id):
         return self.repository.delete_user(user_id)
 
-
-users_repository = UsersRepository()
+note_translator = NoteTranslator()
+user_translator = UserTranslator(note_translator)
+users_repository = UsersRepository(user_translator)
 users_service = UsersService(users_repository)

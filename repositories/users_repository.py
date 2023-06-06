@@ -1,34 +1,31 @@
-from flask import make_response
 from config import db
-from models import User, user_schema
+from models import User, PlainUser
 
 class UsersRepository:
+    def __init__(self, user_translator):
+        self.translator = user_translator
+
     def get_users(self):
         users = User.query.all()
         return users
 
     def get_user(self, user_id):
         user = User.query.filter(User.id == user_id).one_or_none()
-        if user is not None:
-            return user
-        return None
+        return user
 
-    def create_user(self, user):
-        new_user = user_schema.load(user, session=db.session)
+    def create_user(self, user: PlainUser): 
+        user_data = self.translator.to_database(user)
+        new_user = User(**user_data)
         db.session.add(new_user)
         db.session.commit()
-        return user_schema.dump(new_user), 200
+        return self.translator.from_database(new_user)
 
-    def update_user(self, user_id, user):
-        existing_user = User.query.filter(User.id == user_id).one_or_none()
-
-        if existing_user:
-            update_user = user_schema.load(user, session=db.session)
-            existing_user.fname = update_user.fname
-            existing_user.lname = update_user.lname
-            db.session.merge(existing_user)
-            db.session.commit()
-            return user_schema.dump(existing_user), 200
+    def update_user(self, user_id, user: PlainUser):
+        print(user, flush=True)
+        User.query.filter(User.id == user_id).update(user)
+        updated_user = User.query.filter(User.id == user_id).one_or_none()
+        db.session.commit()
+        return self.translator.from_database(updated_user)
 
     def delete_user(self, user_id):
         existing_user = User.query.filter(User.id == user_id).one_or_none()
@@ -36,5 +33,4 @@ class UsersRepository:
         if existing_user:
             db.session.delete(existing_user)
             db.session.commit()
-            return make_response(f"User successfully deleted", 200)
-            
+            return existing_user
