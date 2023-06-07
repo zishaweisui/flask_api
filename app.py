@@ -15,7 +15,7 @@ from structure import (
 app = config.connex_app
 
 @app.route("/users", methods=['GET'])
-def home():
+def get_users():
     handler = get_users_handler
     return handler.get_users()
 

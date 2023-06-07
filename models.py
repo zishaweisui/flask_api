@@ -34,16 +34,16 @@ class User(db.Model):
     )    
 
 class PlainUser(BaseModel):
-    id: int
+    id: int | None
     fname: str
     lname: str
-    created_date: datetime
-    updated_date: datetime
+    created_date: datetime | None
+    updated_date: datetime | None
 
 class PlainNote(BaseModel):
-    id: int
-    user_id: int
+    id: int | None
+    user_id: int | None
     content: str
-    created_date: datetime
-    updated_date: datetime
+    created_date: datetime | None
+    updated_date: datetime | None
     

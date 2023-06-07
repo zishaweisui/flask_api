@@ -13,14 +13,17 @@ class UsersRepository:
         user = User.query.filter(User.id == user_id).one_or_none()
         return user
 
-    def create_user(self, user): 
+    def create_user(self, plain_user):
+        user = self.translator.to_database(plain_user)
         new_user = User(**user)
         db.session.add(new_user)
         db.session.commit()
         return self.translator.from_database(new_user)
 
-    def update_user(self, user_id, user):
-        User.query.filter(User.id == user_id).update(user)
+    def update_user(self, user_id, plain_user):
+        user = self.translator.to_database(plain_user)
+        new_user = {'lname': user.get('lname'), 'fname': user.get('fname')}
+        User.query.filter(User.id == user_id).update(new_user)
         updated_user = User.query.filter(User.id == user_id).one_or_none()
         db.session.commit()
         return self.translator.from_database(updated_user)

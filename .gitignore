@@ -5,3 +5,4 @@ migrations/
 Dockerfile
 people.db
 build_db.py
+test_database.

@@ -1,7 +1,7 @@
 from repositories import NotesRepository
 from translators import NoteTranslator
-from datetime import datetime, timedelta
 from infrastructure_exceptions import NotFoundException
+from models import PlainNote
 
 class NotesService:
     def __init__(self, notes_repository):
@@ -13,11 +13,13 @@ class NotesService:
             raise NotFoundException
         return note
 
-    def create(self, note):
-        note["created_date"] = datetime.utcnow()-timedelta(days=30)
+    def create(self, attributes):
+        note = PlainNote(**attributes)
+        # note["created_date"] = datetime.utcnow()-timedelta(days=30)
         return self.repository.create_note(note)
 
-    def update(self, note_id, note):
+    def update(self, note_id, attributes):
+        note = PlainNote(**attributes)
         return self.repository.update_note(note_id, note)
 
     def delete(self, note_id):
