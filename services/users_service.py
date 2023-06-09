@@ -18,7 +18,6 @@ class UsersService:
 
     def create(self, attributes):
         user = PlainUser(**attributes)
-        # print(isinstance(user, PlainUser), flush=True)
         # user["created_date"] = datetime.utcnow()-timedelta(days=30)
         return self.repository.create_user(user)
 

@@ -6,3 +6,8 @@ Dockerfile
 people.db
 build_db.py
 test_database.
+docker-compose.yml
+secrets/
+people_backup.db
+.dockerignore
+Makefile
